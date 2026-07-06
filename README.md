@@ -1,45 +1,40 @@
 # Spring-URL-Search
 
-![Build](https://github.com/pop1213/Spring-URL-Search/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/MARKETPLACE_ID.svg)](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/MARKETPLACE_ID.svg)](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID)
+A lightweight, high-performance IntelliJ IDEA plugin that indexes Spring Controller endpoints and enables fast URL searching and code navigation directly inside the **Search Everywhere** dialog.
 
-## Template ToDo list
-- [x] Create a new [IntelliJ Platform Plugin Template][template] project.
-- [ ] Get familiar with the [template documentation][template].
-- [ ] Adjust the [group](./gradle.properties), as well as the [id](./src/main/resources/META-INF/plugin.xml), [name](./src/main/resources/META-INF/plugin.xml), and [sources package](./src/main/kotlin).
-- [ ] Adjust the plugin [description](./src/main/resources/META-INF/plugin.xml) (see [Tips][docs:plugin-description]) and this README to describe what your plugin does.
-- [ ] Review the [Legal Agreements](https://plugins.jetbrains.com/docs/marketplace/legal-agreements.html?from=IJPluginTemplate).
-- [ ] [Publish a plugin manually](https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginTemplate) for the first time.
-- [ ] Set the `MARKETPLACE_ID` in the above README badges. You can obtain it once the plugin is published to JetBrains Marketplace.
-- [ ] Set the [Plugin Signing](https://plugins.jetbrains.com/docs/intellij/plugin-signing.html?from=IJPluginTemplate) related [secrets](https://github.com/JetBrains/intellij-platform-plugin-template#environment-variables).
-- [ ] Set the [Deployment Token](https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html?from=IJPluginTemplate).
-- [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
+## Features
 
-This Fancy IntelliJ Platform Plugin is going to be your implementation of the brilliant ideas that you have.
+- **Dedicated Search Tab**: Adds a dedicated **"Spring Mappings URLs"** tab to the Search Everywhere dialog (double shift) to keep URL searches clean and isolated from classes, files, or actions.
+- **Fast In-Memory Index**: Scans project controllers on startup in the background (when the IDE is in smart mode) and caches URL routes in memory. No scanning is performed during search queries to ensure instant results.
+- **Incremental Updates**: Listens to real-time PSI and VFS file changes. Adds, edits, or deletes endpoints on the fly with debounced updates (1s delay) to preserve IDE performance.
+- **UAST-based Parsing**: Built on JetBrains Unified AST (UAST), enabling native support for both **Java** and **Kotlin** Spring controllers (`@Controller`, `@RestController`, `@RequestMapping`, `@GetMapping`, `@PostMapping`, `@PutMapping`, `@DeleteMapping`, `@PatchMapping`).
+- **Path Combination & Normalization**: Automatically handles class-level mapping prefixes (supporting both `value` and `path` properties) and resolves nested or multiple endpoint mappings correctly.
+- **Weighted Sorting**: Automatically ranks search matches based on query type:
+  - Exact Match > Prefix Match > Contains Match > Fuzzy Match.
+  - Penalizes longer URLs slightly so shorter/primary endpoints rank higher.
+- **HTTP Method Filters**: Supports filtering by HTTP method (e.g. typing `GET /users` or `POST user`).
+- **Direct Code Navigation**: Pressing Enter or double-clicking on a URL search result navigates directly to the target `PsiMethod` handler in the editor.
+- **Rich Visual Rendering**: Features color-coded HTTP methods (Green `GET`, Blue `POST`, Orange `PUT`, Red `DELETE`, Purple `PATCH`) aligned vertically for clear reading, followed by bold paths and greyed class/handler information.
+- **K2 Compiler Mode Support**: Fully compatible with the Kotlin K2 compiler mode in modern JetBrains IDEs.
+
+## How to Build
+
+The plugin requires JVM 17+ to run Gradle compilation.
+
+1. Set your `JAVA_HOME` to JDK 17 or higher:
+   ```powershell
+   $env:JAVA_HOME="path/to/your/jdk17"
+   ```
+2. Build the plugin package:
+   ```powershell
+   .\gradlew.bat buildPlugin
+   ```
+   The built zip archive will be generated at `build/distributions/Spring-URL-Search-0.0.1.zip`.
 
 ## Installation
 
-- Using the IDE built-in plugin system:
-
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "Spring-URL-Search"</kbd> >
-  <kbd>Install</kbd>
-
-- Using JetBrains Marketplace:
-
-  Go to [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID) and install it by clicking the <kbd>Install to ...</kbd> button in case your IDE is running.
-
-  You can also download the [latest release](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID/versions) from JetBrains Marketplace and install it manually using
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
-
-- Manually:
-
-  Download the [latest release](https://github.com/pop1213/Spring-URL-Search/releases/latest) and install it manually using
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
-
-
----
-Plugin based on the [IntelliJ Platform Plugin Template][template].
-
-[template]: https://github.com/JetBrains/intellij-platform-plugin-template
-[docs:plugin-description]: https://plugins.jetbrains.com/docs/intellij/plugin-user-experience.html#plugin-description-and-presentation
+1. Open IntelliJ IDEA.
+2. Navigate to **Settings/Preferences** > **Plugins**.
+3. Click the gear icon (⚙️) in the top-right corner of the Plugins page and select **Install Plugin from Disk...**.
+4. Select the built plugin file: `build/distributions/Spring-URL-Search-0.0.1.zip`.
+5. Restart the IDE to load the plugin.
