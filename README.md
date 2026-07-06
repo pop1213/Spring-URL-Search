@@ -1,4 +1,4 @@
-# Spring-URL-Search
+# Spring Mappings Search
 
 A lightweight, high-performance IntelliJ IDEA plugin that indexes Spring Controller endpoints and enables fast URL searching and code navigation directly inside the **Search Everywhere** dialog.
 
@@ -29,12 +29,12 @@ The plugin requires JVM 17+ to run Gradle compilation.
    ```powershell
    .\gradlew.bat buildPlugin
    ```
-   The built zip archive will be generated at `build/distributions/Spring-URL-Search-0.0.1.zip`.
+   The built zip archive will be generated at `build/distributions/spring-mappings-search-0.0.1.zip`.
 
 ## Installation
 
 1. Open IntelliJ IDEA.
 2. Navigate to **Settings/Preferences** > **Plugins**.
 3. Click the gear icon (⚙️) in the top-right corner of the Plugins page and select **Install Plugin from Disk...**.
-4. Select the built plugin file: `build/distributions/Spring-URL-Search-0.0.1.zip`.
+4. Select the built plugin file: `build/distributions/spring-mappings-search-0.0.1.zip`.
 5. Restart the IDE to load the plugin.
