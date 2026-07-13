@@ -21,4 +21,12 @@
     <extensions defaultExtensionNs="org.jetbrains.kotlin">
         <supportsKotlinPluginMode supportsK2="true" />
     </extensions>
+    <actions>
+        <action id="SpringUrlSearch.RefreshMappings"
+                class="com.github.pop1213.springurlsearch.actions.RefreshSpringMappingsAction"
+                text="Refresh Spring Mappings"
+                description="Manually rebuild the Spring URL mappings index">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
+    </actions>
 </idea-plugin>
